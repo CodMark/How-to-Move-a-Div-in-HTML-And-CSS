@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        min-height: 100vh;
+        overflow: hidden;
+        background: #e1e1e1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 23px;
+        font-family: cursive;
+        text-align: center;
+    }
+    #mydiv{
+        position: absolute;
+        top: 3rem;
+        left: 3rem;
+        z-index: 9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        border-radius: 23px;
+        background: white;
+        width: 16rem;
+        height: 14rem;
+        box-shadow: 0px 0px 20px #0000001c;
+    }
+    #mydivheader{
+        padding: 10px;
+        cursor: move;
+        z-index: 10;
+        background: linear-gradient(180deg, #ff003f, #ff9900);
+        color: #fff;
+        border-radius: 12px;
+        letter-spacing: 1px;
+        font-weight: 600;
+    }
+    #mydiv img{
+        width: 9rem;
+        margin-top: 14px;
+    }
+</style>
+
+<body>
+    <p>Click and hold the mouse button down while moving the DIV element</p>
+   <div id="mydiv">
+    <div id="mydivheader">Click here to move</div>
+    <img src="./24.webp" alt="">
+   </div>
+</body>
+<script>
+    dragElement(document.getElementById("mydiv"));
+
+    function dragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        if (document.getElementById(elmnt.id + "header")) {
+            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+        } else {
+            elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+</script>
+</html>
